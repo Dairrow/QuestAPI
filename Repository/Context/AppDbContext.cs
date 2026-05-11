@@ -6,50 +6,50 @@ namespace Repository.Context;
 
 public class AppDbContext : DbContext
 {
-    public AppDbContext(DbContextOptions<AppDbContext> options)
-        : base(options)
-    {
-    }
+	public AppDbContext(DbContextOptions<AppDbContext> options)
+		: base(options)
+	{
+	}
 
-    public DbSet<User> Users => Set<User>();
+	public DbSet<User> Users => Set<User>();
 
-    public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
+	public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
 
-    public DbSet<Quest> Quests => Set<Quest>();
+	public DbSet<Quest> Quests => Set<Quest>();
 
-    public DbSet<QuestTask> QuestTasks => Set<QuestTask>();
+	public DbSet<QuestTask> QuestTasks => Set<QuestTask>();
 
-    public DbSet<Reward> Rewards => Set<Reward>();
+	public DbSet<Reward> Rewards => Set<Reward>();
 
-    public DbSet<UserQuest> UserQuests => Set<UserQuest>();
+	public DbSet<UserQuest> UserQuests => Set<UserQuest>();
 
-    public DbSet<UserReward> UserRewards => Set<UserReward>();
-
-
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        base.OnModelCreating(modelBuilder);
+	public DbSet<UserReward> UserRewards => Set<UserReward>();
 
 
-        modelBuilder.ApplyConfiguration(
-            new UserConfiguration());
+	protected override void OnModelCreating(ModelBuilder modelBuilder)
+	{
+		base.OnModelCreating(modelBuilder);
 
-        modelBuilder.ApplyConfiguration(
-            new RefreshTokenConfiguration());
 
-        modelBuilder.ApplyConfiguration(
-            new QuestConfiguration());
+		modelBuilder.ApplyConfiguration(
+			new UserConfiguration());
 
-        modelBuilder.ApplyConfiguration(
-            new QuestTaskConfiguration());
+		modelBuilder.ApplyConfiguration(
+			new RefreshTokenConfiguration());
 
-        modelBuilder.ApplyConfiguration(
-            new RewardConfiguration());
+		modelBuilder.ApplyConfiguration(
+			new QuestConfiguration());
 
-        modelBuilder.ApplyConfiguration(
-            new UserQuestConfiguration());
+		modelBuilder.ApplyConfiguration(
+			new QuestTaskConfiguration());
 
-        modelBuilder.ApplyConfiguration(
-            new UserRewardConfiguration());
-    }
+		modelBuilder.ApplyConfiguration(
+			new RewardConfiguration());
+
+		modelBuilder.ApplyConfiguration(
+			new UserQuestConfiguration());
+
+		modelBuilder.ApplyConfiguration(
+			new UserRewardConfiguration());
+	}
 }

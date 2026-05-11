@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Repository.Context;
 using API.Extensions;
+using Services.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,7 +10,11 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 		builder.Configuration.GetConnectionString(
 			"DefaultConnection"))
 	.UseSnakeCaseNamingConvention());
+
+
 builder.Services.AddRepositories();
+builder.Services.AddBusinessServices();
+
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
