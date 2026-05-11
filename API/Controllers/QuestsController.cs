@@ -1,5 +1,6 @@
 ﻿using API.DTOs.Responses.Quests;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Interfaces;
 
@@ -38,8 +39,8 @@ public class QuestsController
 		return Ok(response);
 	}
 
-
-	[HttpGet("{id:int}")]
+    [Authorize]
+    [HttpGet("{id:int}")]
 	[ProducesResponseType(StatusCodes.Status404NotFound)]
 	public async Task<ActionResult<
 		QuestResponse>> GetById(
