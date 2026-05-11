@@ -41,8 +41,8 @@ public class UsersController
 
 
 	[HttpGet("{id:int}")]
-	[ProducesResponseType(StatusCodes.Status200OK)]
 	[ProducesResponseType(StatusCodes.Status404NotFound)]
+	[ProducesResponseType(StatusCodes.Status200OK)]
 	public async Task<ActionResult<
 		UserResponse>> GetById(
 		int id,

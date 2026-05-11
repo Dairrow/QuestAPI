@@ -40,6 +40,7 @@ public class QuestsController
 
 
 	[HttpGet("{id:int}")]
+	[ProducesResponseType(StatusCodes.Status404NotFound)]
 	public async Task<ActionResult<
 		QuestResponse>> GetById(
 		int id,
