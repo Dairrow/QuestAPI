@@ -5,12 +5,12 @@ namespace Data.Entities;
 
 public class Reward : AuditableEntity
 {
-    public string Name { get; set; } = string.Empty;
+	public string Name { get; set; } = string.Empty;
 
-    public RewardType Type { get; set; }
+	public RewardType Type { get; set; }
 
-    public int Value { get; set; }
+	public int Value { get; set; }
 
-    public ICollection<UserReward> UserRewards { get; set; }
-        = new List<UserReward>();
+	public ICollection<UserReward> UserRewards { get; set; }
+		= new List<UserReward>();
 }
