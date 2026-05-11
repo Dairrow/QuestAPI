@@ -1,0 +1,20 @@
+﻿using Data.Enums;
+using System.ComponentModel.DataAnnotations;
+
+namespace API.DTOs.Requests.Quests;
+
+public class CreateQuestRequest
+{
+	[Required]
+	[StringLength(100, MinimumLength = 3)]
+	public string Title { get; set; } = string.Empty;
+
+
+	[Required]
+	[StringLength(500)]
+	public string Description { get; set; } = string.Empty;
+
+
+	[Required]
+	public QuestDifficulty Difficulty { get; set; }
+}

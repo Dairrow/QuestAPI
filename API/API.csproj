@@ -7,6 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+	<PackageReference Include="AutoMapper" Version="12.0.0" />
+	<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
 	<PackageReference Include="EFCore.NamingConventions" Version="9.0.0" />
 	<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.10">
 	  <PrivateAssets>all</PrivateAssets>
@@ -27,6 +29,9 @@
 
   <ItemGroup>
 	<Folder Include="Controllers\" />
+	<Folder Include="DTOs\Requests\Users\" />
+	<Folder Include="DTOs\Requests\Quests\" />
+	<Folder Include="DTOs\Requests\Rewards\" />
   </ItemGroup>
 
 </Project>
