@@ -28,7 +28,6 @@
   </ItemGroup>
 
   <ItemGroup>
-	<Folder Include="Controllers\" />
 	<Folder Include="DTOs\Requests\Users\" />
 	<Folder Include="DTOs\Requests\Quests\" />
 	<Folder Include="DTOs\Requests\Rewards\" />

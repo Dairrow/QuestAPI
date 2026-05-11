@@ -17,6 +17,7 @@ public static class ServiceCollectionExtensions
 
 		services.AddScoped<IRewardService, RewardService>();
 
+		services.AddScoped<IQuestTaskService, QuestTaskService>();
 
 		return services;
 	}
