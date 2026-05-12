@@ -10,6 +10,7 @@ public class UserQuest : AuditableEntity
 
 	public bool IsCompleted { get; set; }
 
+	public int? LastCompletedTaskOrder { get; set; }
 
 	public User User { get; set; } = null!;
 

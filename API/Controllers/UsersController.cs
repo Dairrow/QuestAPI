@@ -1,63 +1,74 @@
-﻿using API.DTOs.Responses.Users;
+﻿using API.DTOs.Requests.Users;
+using API.DTOs.Responses.Users;
+using API.Extensions;
 using AutoMapper;
+using Data.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Interfaces;
 
 namespace API.Controllers;
 
-public class UsersController
-	: BaseApiController
+[Authorize]
+public class UsersController : BaseApiController
 {
-	private readonly IUserService _userService;
-
+	private readonly IUserService _service;
 	private readonly IMapper _mapper;
 
-
-	public UsersController(
-		IUserService userService,
-		IMapper mapper)
+	public UsersController(IUserService service, IMapper mapper)
 	{
-		_userService = userService;
+		_service = service;
 		_mapper = mapper;
 	}
 
-
 	[HttpGet]
-	[ProducesResponseType(StatusCodes.Status200OK)]
-	public async Task<ActionResult<
-		IEnumerable<UserResponse>>> GetAll(
-		CancellationToken cancellationToken)
+	[Authorize(Roles = "Admin")]
+	public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
 	{
-		var users = await _userService
-			.GetAllAsync(cancellationToken);
-
-
-		var response = _mapper.Map<
-			IEnumerable<UserResponse>>(users);
-
-
-		return Ok(response);
+		var entities = await _service.GetAllAsync(cancellationToken);
+		return Ok(_mapper.Map<IEnumerable<UserResponse>>(entities));
 	}
 
-
 	[HttpGet("{id:int}")]
-	[ProducesResponseType(StatusCodes.Status404NotFound)]
-	[ProducesResponseType(StatusCodes.Status200OK)]
-	public async Task<ActionResult<
-		UserResponse>> GetById(
-		int id,
-		CancellationToken cancellationToken)
+	public async Task<IActionResult> GetById(int id, CancellationToken cancellationToken)
 	{
-		var user = await _userService
-			.GetByIdAsync(
-				id,
-				cancellationToken);
+		EnsureUserAccess(id);
+		var entity = await _service.GetByIdAsync(id, cancellationToken);
+		return Ok(_mapper.Map<UserResponse>(entity));
+	}
 
+	[HttpPost]
+	[Authorize(Roles = "Admin")]
+	public async Task<IActionResult> Create(CreateUserRequest request, CancellationToken cancellationToken)
+	{
+		var entity = _mapper.Map<User>(request);
+		entity.PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
+		var result = await _service.CreateAsync(entity, cancellationToken);
+		return Ok(_mapper.Map<UserResponse>(result));
+	}
+		
+	[HttpPut("{id:int}")]
+	public async Task<IActionResult> Update(int id, UpdateUserRequest request, CancellationToken cancellationToken)
+	{
+		EnsureUserAccess(id);
+		var entity = _mapper.Map<User>(request);
+		var result = await _service.UpdateAsync(id, entity, cancellationToken);
+		return Ok(_mapper.Map<UserResponse>(result));
+	}
 
-		var response = _mapper.Map<
-			UserResponse>(user);
+	[HttpPut("{id:int}/change-password")]
+	public async Task<IActionResult> ChangePassword(int id, ChangePasswordRequest request, CancellationToken cancellationToken)
+	{
+		EnsureUserAccess(id);
+		await _service.ChangePasswordAsync(id, request.OldPassword, request.NewPassword, cancellationToken);
+		return NoContent();
+	}
 
-
-		return Ok(response);
+	[HttpDelete("{id:int}")]
+	public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
+	{
+		EnsureUserAccess(id);
+		await _service.DeleteAsync(id, cancellationToken);
+		return NoContent();
 	}
 }

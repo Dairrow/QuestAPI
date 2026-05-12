@@ -19,10 +19,14 @@ public class QuestTaskConfiguration
 		builder.Property(x => x.Title)
 			.IsRequired();
 
+		builder.Property(x => x.Order).IsRequired();
+
 
 		builder.HasOne(x => x.Quest)
 			.WithMany(x => x.Tasks)
 			.HasForeignKey(x => x.QuestId)
 			.OnDelete(DeleteBehavior.Cascade);
+
+		builder.HasIndex(x => new { x.QuestId, x.Order }).IsUnique();
 	}
 }

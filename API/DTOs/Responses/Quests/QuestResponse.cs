@@ -12,5 +12,7 @@ public class QuestResponse
 
 	public QuestDifficulty Difficulty { get; set; }
 
+	public int? RewardId { get; set; }
+
 	public DateTime CreatedAt { get; set; }
 }

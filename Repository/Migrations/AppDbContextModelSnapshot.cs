@@ -44,6 +44,10 @@ namespace Repository.Migrations
 						.HasColumnType("integer")
 						.HasColumnName("difficulty");
 
+					b.Property<int?>("RewardId")
+						.HasColumnType("integer")
+						.HasColumnName("reward_id");
+
 					b.Property<string>("Title")
 						.IsRequired()
 						.HasMaxLength(100)
@@ -56,6 +60,9 @@ namespace Repository.Migrations
 
 					b.HasKey("Id")
 						.HasName("pk_quests");
+
+					b.HasIndex("RewardId")
+						.HasDatabaseName("ix_quests_reward_id");
 
 					b.ToTable("quests", (string)null);
 				});
@@ -78,6 +85,10 @@ namespace Repository.Migrations
 						.HasColumnType("text")
 						.HasColumnName("description");
 
+					b.Property<int>("Order")
+						.HasColumnType("integer")
+						.HasColumnName("order");
+
 					b.Property<int>("QuestId")
 						.HasColumnType("integer")
 						.HasColumnName("quest_id");
@@ -94,8 +105,9 @@ namespace Repository.Migrations
 					b.HasKey("Id")
 						.HasName("pk_quest_tasks");
 
-					b.HasIndex("QuestId")
-						.HasDatabaseName("ix_quest_tasks_quest_id");
+					b.HasIndex("QuestId", "Order")
+						.IsUnique()
+						.HasDatabaseName("ix_quest_tasks_quest_id_order");
 
 					b.ToTable("quest_tasks", (string)null);
 				});
@@ -245,6 +257,10 @@ namespace Repository.Migrations
 						.HasColumnType("boolean")
 						.HasColumnName("is_completed");
 
+					b.Property<int?>("LastCompletedTaskOrder")
+						.HasColumnType("integer")
+						.HasColumnName("last_completed_task_order");
+
 					b.Property<int>("QuestId")
 						.HasColumnType("integer")
 						.HasColumnName("quest_id");
@@ -309,6 +325,17 @@ namespace Repository.Migrations
 						.HasDatabaseName("ix_user_rewards_user_id");
 
 					b.ToTable("user_rewards", (string)null);
+				});
+
+			modelBuilder.Entity("Data.Entities.Quest", b =>
+				{
+					b.HasOne("Data.Entities.Reward", "Reward")
+						.WithMany()
+						.HasForeignKey("RewardId")
+						.OnDelete(DeleteBehavior.SetNull)
+						.HasConstraintName("fk_quests_rewards_reward_id");
+
+					b.Navigation("Reward");
 				});
 
 			modelBuilder.Entity("Data.Entities.QuestTask", b =>

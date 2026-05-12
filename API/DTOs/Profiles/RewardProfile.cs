@@ -11,6 +11,8 @@ public class RewardProfile : Profile
 	{
 		CreateMap<CreateRewardRequest, Reward>();
 
+		CreateMap<UpdateRewardRequest, Reward>();
+
 		CreateMap<Reward, RewardResponse>();
 	}
 }

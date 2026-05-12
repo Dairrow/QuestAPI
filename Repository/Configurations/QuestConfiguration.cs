@@ -23,5 +23,10 @@ public class QuestConfiguration
 
 		builder.Property(x => x.Description)
 			.IsRequired();
+
+		builder.HasOne(x => x.Reward)
+			   .WithMany()
+			   .HasForeignKey(x => x.RewardId)
+			   .OnDelete(DeleteBehavior.SetNull);
 	}
 }

@@ -21,6 +21,10 @@ public static class ServiceCollectionExtensions
 
 		services.AddScoped<ITokenService, TokenService>();
 
+		services.AddScoped<IUserQuestService, UserQuestService>();
+
+		services.AddScoped<IUserRewardService, UserRewardService>();
+
 		return services;
 	}
 }

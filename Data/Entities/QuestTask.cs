@@ -8,6 +8,8 @@ public class QuestTask : AuditableEntity
 
 	public string Description { get; set; } = string.Empty;
 
+	public int Order { get; set; }
+
 	public int QuestId { get; set; }
 
 	public Quest Quest { get; set; } = null!;

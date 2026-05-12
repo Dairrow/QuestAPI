@@ -45,7 +45,7 @@ public class AuthController
 
 					request.Password,
 
-					UserRole.Admin,
+					UserRole.User,
 
 					cancellationToken);
 

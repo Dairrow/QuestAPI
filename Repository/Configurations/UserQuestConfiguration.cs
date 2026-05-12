@@ -29,5 +29,7 @@ public class UserQuestConfiguration
 		builder.HasIndex(x =>
 			new { x.UserId, x.QuestId })
 			.IsUnique();
+
+		builder.Property(x => x.LastCompletedTaskOrder).IsRequired(false);
 	}
 }

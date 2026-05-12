@@ -11,8 +11,8 @@ public class QuestProfile : Profile
 	{
 		CreateMap<CreateQuestRequest, Quest>();
 
-		CreateMap<Quest, QuestResponse>();
+		CreateMap<UpdateQuestRequest, Quest>();
 
-		CreateMap<QuestTask, QuestTaskResponse>();
+		CreateMap<Quest, QuestResponse>();
 	}
 }

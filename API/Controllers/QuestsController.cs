@@ -1,62 +1,59 @@
-﻿using API.DTOs.Responses.Quests;
+﻿using API.DTOs.Requests.Quests;
+using API.DTOs.Responses.Quests;
 using AutoMapper;
+using Data.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Interfaces;
 
 namespace API.Controllers;
 
-public class QuestsController
-	: BaseApiController
+[Authorize(Roles = "Admin")]
+public class QuestsController : BaseApiController
 {
-	private readonly IQuestService _questService;
-
+	private readonly IQuestService _service;
 	private readonly IMapper _mapper;
 
-
-	public QuestsController(
-		IQuestService questService,
-		IMapper mapper)
+	public QuestsController(IQuestService service, IMapper mapper)
 	{
-		_questService = questService;
+		_service = service;
 		_mapper = mapper;
 	}
 
-
 	[HttpGet]
-	public async Task<ActionResult<
-		IEnumerable<QuestResponse>>> GetAll(
-		CancellationToken cancellationToken)
+	public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
 	{
-		var quests = await _questService
-			.GetAllAsync(cancellationToken);
-
-
-		var response = _mapper.Map<
-			IEnumerable<QuestResponse>>(quests);
-
-
-		return Ok(response);
+		var entities = await _service.GetAllAsync(cancellationToken);
+		return Ok(_mapper.Map<IEnumerable<QuestResponse>>(entities));
 	}
 
-    [Authorize]
-    [HttpGet("{id:int}")]
-	[ProducesResponseType(StatusCodes.Status404NotFound)]
-	public async Task<ActionResult<
-		QuestResponse>> GetById(
-		int id,
-		CancellationToken cancellationToken)
+	[HttpGet("{id:int}")]
+	public async Task<IActionResult> GetById(int id, CancellationToken cancellationToken)
 	{
-		var quest = await _questService
-			.GetByIdAsync(
-				id,
-				cancellationToken);
+		var entity = await _service.GetByIdAsync(id, cancellationToken);
+		return Ok(_mapper.Map<QuestResponse>(entity));
+	}
 
+	[HttpPost]
+	public async Task<IActionResult> Create(CreateQuestRequest request, CancellationToken cancellationToken)
+	{
+		var entity = _mapper.Map<Quest>(request);
+		var result = await _service.CreateAsync(entity, cancellationToken);
+		return Ok(_mapper.Map<QuestResponse>(result));
+	}
 
-		var response = _mapper.Map<
-			QuestResponse>(quest);
+	[HttpPut("{id:int}")]
+	public async Task<IActionResult> Update(int id, UpdateQuestRequest request, CancellationToken cancellationToken)
+	{
+		var entity = _mapper.Map<Quest>(request);
+		var result = await _service.UpdateAsync(id, entity, cancellationToken);
+		return Ok(_mapper.Map<QuestResponse>(result));
+	}
 
-
-		return Ok(response);
+	[HttpDelete("{id:int}")]
+	public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
+	{
+		await _service.DeleteAsync(id, cancellationToken);
+		return NoContent();
 	}
 }

@@ -11,6 +11,8 @@ public class Quest : AuditableEntity
 
 	public QuestDifficulty Difficulty { get; set; }
 
+	public int? RewardId { get; set; }
+	public Reward? Reward { get; set; }
 
 	public ICollection<QuestTask> Tasks { get; set; }
 		= new List<QuestTask>();

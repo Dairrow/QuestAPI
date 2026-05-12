@@ -28,10 +28,4 @@
 	<ProjectReference Include="..\Services\Services.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-	<Folder Include="DTOs\Requests\Users\" />
-	<Folder Include="DTOs\Requests\Quests\" />
-	<Folder Include="DTOs\Requests\Rewards\" />
-  </ItemGroup>
-
 </Project>

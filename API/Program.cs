@@ -25,9 +25,9 @@ builder.Services.AddSwaggerGen(c =>
 {
 	c.SwaggerDoc("v1", new OpenApiInfo
 	{
-		Title = "Wardrobe API",
+		Title = "Mega Game API",
 		Version = "v1",
-		Description = "API для управления личным гардеробом"
+		Description = "API для управления квестами пользователей"
 	});
 
 	c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
