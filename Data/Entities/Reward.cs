@@ -11,6 +11,8 @@ public class Reward : AuditableEntity
 
 	public int Value { get; set; }
 
+	public string? ImagePath { get; set; }
+
 	public ICollection<UserReward> UserRewards { get; set; }
 		= new List<UserReward>();
 }

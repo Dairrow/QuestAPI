@@ -19,5 +19,9 @@ public class RewardConfiguration
 		builder.Property(x => x.Name)
 			.IsRequired()
 			.HasMaxLength(100);
+
+		builder.Property(x => x.ImagePath)
+			.HasMaxLength(500)
+			.IsRequired(false);
 	}
 }

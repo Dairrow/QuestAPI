@@ -27,4 +27,10 @@ public static class ServiceCollectionExtensions
 
 		return services;
 	}
+
+	public static IServiceCollection AddFileStorageService(this IServiceCollection services, string? webRootPath = null)
+	{
+		services.AddSingleton<IFileStorageService>(new FileStorageService(webRootPath));
+		return services;
+	}
 }

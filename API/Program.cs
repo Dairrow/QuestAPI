@@ -16,6 +16,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddRepositories();
 builder.Services.AddBusinessServices();
+builder.Services.AddFileStorageService(builder.Environment.WebRootPath);
 builder.Services.AddAutoMapper(typeof(UserProfile));
 
 builder.Services.AddControllers();
@@ -70,6 +71,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseStaticFiles();
 
 app.UseAuthentication();
 app.UseAuthorization();

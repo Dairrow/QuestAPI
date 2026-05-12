@@ -95,6 +95,9 @@ public class RewardService : IRewardService
 		existing.Value = 
 			entity.Value;
 
+		existing.ImagePath = 
+			entity.ImagePath;
+
 		existing.UpdatedAt =
 			DateTime.UtcNow;
 

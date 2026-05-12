@@ -10,5 +10,7 @@ public class RewardResponse
 
 	public RewardType Type { get; set; }
 
+	public string? ImagePath { get; set; }
+
 	public int Value { get; set; }
 }

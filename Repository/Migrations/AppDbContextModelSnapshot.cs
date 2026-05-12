@@ -168,6 +168,11 @@ namespace Repository.Migrations
 						.HasColumnType("timestamp with time zone")
 						.HasColumnName("created_at");
 
+					b.Property<string>("ImagePath")
+						.HasMaxLength(500)
+						.HasColumnType("character varying(500)")
+						.HasColumnName("image_path");
+
 					b.Property<string>("Name")
 						.IsRequired()
 						.HasMaxLength(100)
