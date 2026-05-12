@@ -1,5 +1,6 @@
 ﻿using Data.Entities;
 using Microsoft.Extensions.Logging;
+using Repository.Implementations;
 using Repository.Interfaces;
 using Services.Exceptions;
 using Services.Interfaces;
@@ -9,13 +10,19 @@ namespace Services.Implementations;
 public class UserRewardService : IUserRewardService
 {
 	private readonly IUserRewardRepository _userRewardRepository;
+	private readonly IUserQuestRepository _userQuestRepository;
+	private readonly IQuestRepository _questRepository;
 	private readonly ILogger<UserRewardService> _logger;
 
 	public UserRewardService(
 		IUserRewardRepository userRewardRepository,
+		IUserQuestRepository userQuestRepository,
+		IQuestRepository questRepository,
 		ILogger<UserRewardService> logger)
 	{
 		_userRewardRepository = userRewardRepository;
+		_userQuestRepository = userQuestRepository;
+		_questRepository = questRepository;
 		_logger = logger;
 	}
 
@@ -79,7 +86,43 @@ public class UserRewardService : IUserRewardService
 		return entity;
 	}
 
+	public async Task<UserReward> ClaimAsync(int userRewardId, CancellationToken cancellationToken = default)
+	{
+		var userReward = await _userRewardRepository.GetByIdAsync(userRewardId, cancellationToken)
+			?? throw new NotFoundException($"UserReward {userRewardId} not found");
 
+		if (userReward.IsClaimed)
+			throw new ValidationException("Reward already claimed");
+
+		var completedQuest = await _userQuestRepository.FindAsync(
+			uq => uq.UserId == userReward.UserId && uq.IsCompleted,
+			cancellationToken);
+
+		var rewardId = userReward.RewardId;
+
+		bool hasMatchingQuest = false;
+		foreach (var uq in completedQuest)
+		{
+			var quest = await _questRepository.GetByIdAsync(uq.QuestId, cancellationToken);
+			if (quest?.RewardId == rewardId)
+			{
+				hasMatchingQuest = true;
+				break;
+			}
+		}
+
+		if (!hasMatchingQuest)
+			throw new ValidationException("No completed quest gives this reward");
+
+		userReward.IsClaimed = true;
+		_userRewardRepository.Update(userReward);
+		await _userRewardRepository.SaveChangesAsync(cancellationToken);
+
+		_logger.LogInformation("User {UserId} claimed reward {RewardId} (UserReward {Id})",
+			userReward.UserId, userReward.RewardId, userReward.Id);
+
+		return userReward;
+	}
 
 	public async Task DeleteAsync(
 		int id,

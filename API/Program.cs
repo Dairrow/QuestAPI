@@ -64,6 +64,11 @@ var app = builder.Build();
 app.UseGlobalExceptionHandling();
 
 
+using (var scope = app.Services.CreateScope())
+{
+	await Repository.Seed.SeedData.InitializeAsync(scope.ServiceProvider);
+}
+
 if (app.Environment.IsDevelopment())
 {
 	app.UseSwagger();

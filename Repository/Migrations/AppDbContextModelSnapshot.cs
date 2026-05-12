@@ -304,6 +304,10 @@ namespace Repository.Migrations
 						.HasColumnType("timestamp with time zone")
 						.HasColumnName("created_at");
 
+					b.Property<bool>("IsClaimed")
+						.HasColumnType("boolean")
+						.HasColumnName("is_claimed");
+
 					b.Property<DateTime>("ReceivedAt")
 						.HasColumnType("timestamp with time zone")
 						.HasColumnName("received_at");
@@ -326,8 +330,9 @@ namespace Repository.Migrations
 					b.HasIndex("RewardId")
 						.HasDatabaseName("ix_user_rewards_reward_id");
 
-					b.HasIndex("UserId")
-						.HasDatabaseName("ix_user_rewards_user_id");
+					b.HasIndex("UserId", "RewardId")
+						.IsUnique()
+						.HasDatabaseName("ix_user_rewards_user_id_reward_id");
 
 					b.ToTable("user_rewards", (string)null);
 				});

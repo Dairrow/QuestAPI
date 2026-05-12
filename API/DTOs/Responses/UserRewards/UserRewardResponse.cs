@@ -7,4 +7,6 @@ public class UserRewardResponse
 	public int RewardId { get; set; }
 
 	public DateTime ReceivedAt { get; set; }
+
+	public bool IsClaimed { get; set; }
 }

@@ -131,11 +131,15 @@ public class UserQuestService : IUserQuestService
 
 			if (quest.RewardId != null)
 			{
-				var existingRewards = await _userRewardRepository.FindAsync(
+				var userRewards = await _userRewardRepository.FindAsync(
 					ur => ur.UserId == userQuest.UserId && ur.RewardId == quest.RewardId.Value,
 					cancellationToken);
-				foreach (var reward in existingRewards)
-					_userRewardRepository.Delete(reward);
+				var userReward = userRewards.FirstOrDefault();
+				if (userReward != null)
+				{
+					userReward.IsClaimed = false;
+					_userRewardRepository.Update(userReward);
+				}
 			}
 
 			_userQuestRepository.Update(userQuest);
@@ -155,20 +159,29 @@ public class UserQuestService : IUserQuestService
 		if (taskOrder == tasks.Last().Order)
 		{
 			userQuest.IsCompleted = true;
+
 			if (quest.RewardId != null)
 			{
-				var alreadyGiven = await _userRewardRepository.ExistsAsync(
+				var existingRewards = await _userRewardRepository.FindAsync(
 					ur => ur.UserId == userQuest.UserId && ur.RewardId == quest.RewardId.Value,
 					cancellationToken);
-				if (!alreadyGiven)
+
+				var userReward = existingRewards.FirstOrDefault();
+				if (userReward == null)
 				{
-					var userReward = new UserReward
+					userReward = new UserReward
 					{
 						UserId = userQuest.UserId,
 						RewardId = quest.RewardId.Value,
-						ReceivedAt = DateTime.UtcNow
+						ReceivedAt = DateTime.UtcNow,
+						IsClaimed = false
 					};
 					await _userRewardRepository.AddAsync(userReward, cancellationToken);
+				}
+				else
+				{
+					userReward.IsClaimed = false;
+					_userRewardRepository.Update(userReward);
 				}
 			}
 		}
@@ -176,6 +189,8 @@ public class UserQuestService : IUserQuestService
 		{
 			userQuest.IsCompleted = false;
 		}
+
+		userQuest.UpdatedAt = DateTime.UtcNow;
 
 		_userQuestRepository.Update(userQuest);
 		await _userQuestRepository.SaveChangesAsync(cancellationToken);

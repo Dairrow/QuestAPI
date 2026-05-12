@@ -96,7 +96,6 @@ public class QuestService : IQuestService
 		existing.UpdatedAt =
 			DateTime.UtcNow;
 
-
 		_questRepository.Update(
 			existing);
 

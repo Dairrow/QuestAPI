@@ -1,4 +1,5 @@
-﻿using API.DTOs.Requests.UserRewards;
+﻿using API.DTOs.Requests.UserQuests;
+using API.DTOs.Requests.UserRewards;
 using API.DTOs.Responses.UserRewards;
 using AutoMapper;
 using Data.Entities;
@@ -10,6 +11,8 @@ public class UserRewardProfile : Profile
 	public UserRewardProfile()
 	{
 		CreateMap<CreateUserRewardRequest, UserReward>();
+
+		CreateMap<UpdateUserRewardRequest, UserReward>();
 
 		CreateMap<UserReward, UserRewardResponse>();
 	}

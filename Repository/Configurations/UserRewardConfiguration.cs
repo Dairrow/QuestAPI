@@ -15,6 +15,7 @@ public class UserRewardConfiguration
 
 		builder.HasKey(x => x.Id);
 
+		builder.Property(x => x.IsClaimed).IsRequired();
 
 		builder.HasOne(x => x.User)
 			.WithMany(x => x.UserRewards)
@@ -24,5 +25,7 @@ public class UserRewardConfiguration
 		builder.HasOne(x => x.Reward)
 			.WithMany(x => x.UserRewards)
 			.HasForeignKey(x => x.RewardId);
+
+		builder.HasIndex(x => new { x.UserId, x.RewardId }).IsUnique();
 	}
 }

@@ -19,6 +19,10 @@ public interface IUserRewardService
 			UserReward entity,
 			CancellationToken cancellationToken = default);
 
+	Task<UserReward> 
+		ClaimAsync(int userRewardId, 
+		CancellationToken cancellationToken = default);
+
 	Task DeleteAsync(
 		int id,
 		CancellationToken cancellationToken = default);

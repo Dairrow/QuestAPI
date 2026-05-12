@@ -1,9 +1,12 @@
-﻿using API.DTOs.Requests.UserRewards;
+﻿using API.DTOs.Requests.UserQuests;
+using API.DTOs.Requests.UserRewards;
+using API.DTOs.Responses.UserQuests;
 using API.DTOs.Responses.UserRewards;
 using AutoMapper;
 using Data.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Services.Exceptions;
 using Services.Interfaces;
 
 namespace API.Controllers;
@@ -52,6 +55,18 @@ public class UserRewardsController : BaseApiController
 		};
 		var result = await _service.CreateAsync(entity, cancellationToken);
 		return Ok(_mapper.Map<UserRewardResponse>(result));
+	}
+
+	[HttpPut("{id:int}")]
+	public async Task<IActionResult> Claim(int userId, int id, CancellationToken cancellationToken)
+	{
+		EnsureUserAccess(userId);
+		var existing = await _service.GetByIdAsync(id, cancellationToken);
+		if (existing.UserId != userId)
+			throw new ForbiddenException("Access denied");
+
+		var claimed = await _service.ClaimAsync(id, cancellationToken);
+		return Ok(_mapper.Map<UserRewardResponse>(claimed));
 	}
 
 	[HttpDelete("{id:int}")]
