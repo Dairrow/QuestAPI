@@ -114,10 +114,44 @@ public class AuthService
 				"Invalid credentials");
 		}
 
+	await _refreshRepository
+			.RevokeAllForUserAsync(
+			user.Id, 
+			cancellationToken);
 
-		return await CreateAuthResult(
+	return await CreateAuthResult(
 			user,
 			cancellationToken);
+	}
+
+	public async Task<AuthResult> 
+		RefreshAsync(string refreshToken, 
+		CancellationToken cancellationToken = default)
+	{
+	var existing = await _refreshRepository
+			.GetByTokenAsync(
+			refreshToken, 
+			cancellationToken);
+
+	if (existing == null || existing.IsRevoked || existing.ExpiresAt <= DateTime.UtcNow)
+	throw new ValidationException("Invalid or expired refresh token");
+
+	existing.IsRevoked = true;
+	_refreshRepository
+			.Update(existing);
+
+	await _refreshRepository
+			.SaveChangesAsync(cancellationToken);
+
+	var user = await _userRepository
+			.GetByIdAsync(
+			existing.UserId, 
+			cancellationToken);
+
+	if (user == null)
+	throw new NotFoundException("User not found");
+
+	return await CreateAuthResult(user, cancellationToken);
 	}
 
 
@@ -171,5 +205,21 @@ public class AuthService
 			RefreshToken =
 				refreshToken
 		};
+	}
+
+	public async Task RevokeUserTokensAsync(
+		int userId,
+		CancellationToken cancellationToken = default)
+	{
+	var user = await _userRepository
+	.GetByIdAsync(userId, cancellationToken);
+
+	if (user == null)
+	throw new NotFoundException("User not found");
+
+	await _refreshRepository
+	.RevokeAllForUserAsync(
+	userId,
+	cancellationToken);
 	}
 }

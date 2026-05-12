@@ -16,4 +16,12 @@ public interface IAuthService
 		string email,
 		string password,
 		CancellationToken cancellationToken = default);
+
+	Task<AuthResult> 
+		RefreshAsync(string refreshToken, 
+		CancellationToken cancellationToken = default);
+
+	Task RevokeUserTokensAsync(
+		int userId,
+		CancellationToken cancellationToken = default);
 }

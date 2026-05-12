@@ -12,8 +12,6 @@ public class UserRewardProfile : Profile
 	{
 		CreateMap<CreateUserRewardRequest, UserReward>();
 
-		CreateMap<UpdateUserRewardRequest, UserReward>();
-
 		CreateMap<UserReward, UserRewardResponse>();
 	}
 }

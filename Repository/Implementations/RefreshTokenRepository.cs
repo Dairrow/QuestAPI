@@ -26,4 +26,18 @@ public class RefreshTokenRepository
 				x => x.Token == token,
 				cancellationToken);
 	}
+
+	public async Task 
+		RevokeAllForUserAsync(int userId, 
+		CancellationToken cancellationToken = default)
+	{
+	var tokens = await DbSet
+	.Where(rt => rt.UserId == userId && !rt.IsRevoked)
+	.ToListAsync(cancellationToken);
+
+	foreach (var token in tokens)
+	token.IsRevoked = true;
+
+	await Context.SaveChangesAsync(cancellationToken);
+	}
 }

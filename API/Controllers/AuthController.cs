@@ -2,6 +2,7 @@
 using API.DTOs.Responses.Auth;
 using AutoMapper;
 using Data.Enums;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Interfaces;
 
@@ -78,5 +79,33 @@ public class AuthController
 			_mapper.Map<
 				AuthResponse>(
 				result));
+	}
+
+	[HttpPost("refresh")]
+	public async Task<ActionResult<AuthResponse>> 
+		Refresh(RefreshRequest request, 
+		CancellationToken cancellationToken)
+	{
+	var result = await _authService
+			.RefreshAsync(
+			request.RefreshToken, 
+			cancellationToken);
+
+	return Ok(_mapper.Map<AuthResponse>(result));
+	}
+
+	[Authorize(Roles = "Admin")]
+	[HttpPut("revoke")]
+	public async Task<IActionResult>
+		RevokeRefreshTokens(
+		RevokeRefreshTokenRequest request,
+		CancellationToken cancellationToken)
+	{
+	await _authService
+	.RevokeUserTokensAsync(
+	request.UserId,
+	cancellationToken);
+
+	return NoContent();
 	}
 }

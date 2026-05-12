@@ -2,10 +2,14 @@ using Microsoft.EntityFrameworkCore;
 using Repository.Context;
 using API.Extensions;
 using Services.Extensions;
+using Serilog;
 using API.Profiles;
 using Microsoft.OpenApi.Models;
+using QuestAPI.API.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.AddSerilogLogging();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
 	options.UseNpgsql(
@@ -61,6 +65,7 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddJwtAuthentication(builder.Configuration);
 
 var app = builder.Build();
+app.UseSerilogRequestLogging();
 app.UseGlobalExceptionHandling();
 
 
