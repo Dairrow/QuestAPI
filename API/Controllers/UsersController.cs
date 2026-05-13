@@ -56,6 +56,23 @@ public class UsersController : BaseApiController
 		return Ok(_mapper.Map<UserResponse>(result));
 	}
 
+	[HttpPut("{id:int}/admin")]
+	[Authorize(Roles = "Admin")]
+	public async Task<IActionResult> AdminUpdate(
+	int id,
+	AdminUpdateUserRequest request,
+	CancellationToken cancellationToken)
+	{
+		var entity = _mapper.Map<User>(request);
+
+		var result = await _service.AdminUpdateAsync(
+			id,
+			entity,
+			cancellationToken);
+
+		return Ok(_mapper.Map<UserResponse>(result));
+	}
+
 	[HttpPut("{id:int}/change-password")]
 	public async Task<IActionResult> ChangePassword(int id, ChangePasswordRequest request, CancellationToken cancellationToken)
 	{

@@ -119,12 +119,12 @@ public class UserQuestService : IUserQuestService
 
 		var tasks = quest.Tasks.OrderBy(t => t.Order).ToList();
 		if (tasks.Count == 0)
-			throw new ValidationException("Quest has no tasks");
+			throw new ForbiddenException("Quest has no tasks");
 
 		if (taskOrder == 0)
 		{
 			if (!userQuest.IsCompleted)
-				throw new ValidationException("Quest is not completed, cannot reset to 0");
+				throw new ForbiddenException("Quest is not completed, cannot reset to 0");
 
 			userQuest.IsCompleted = false;
 			userQuest.LastCompletedTaskOrder = null;
@@ -149,7 +149,7 @@ public class UserQuestService : IUserQuestService
 
 		int nextOrder = (userQuest.LastCompletedTaskOrder ?? 0) + 1;
 		if (taskOrder != nextOrder)
-			throw new ValidationException($"Invalid task order. Expected {nextOrder}");
+			throw new ForbiddenException($"Invalid task order. Expected {nextOrder}");
 
 		var task = tasks.FirstOrDefault(t => t.Order == taskOrder)
 			?? throw new NotFoundException($"Task with order {taskOrder} not found in quest");

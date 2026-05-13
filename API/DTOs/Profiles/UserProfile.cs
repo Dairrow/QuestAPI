@@ -18,5 +18,6 @@ public class UserProfile : Profile
 
 		CreateMap<UpdateUserRequest, User>();
 
+		CreateMap<AdminUpdateUserRequest, User>();
 	}
 }

@@ -31,6 +31,12 @@ public interface IUserService
 			User entity,
 			CancellationToken cancellationToken = default);
 
+	Task<User> 
+		AdminUpdateAsync(
+			int id,
+			User entity,
+			CancellationToken cancellationToken = default);
+
 	Task DeleteAsync(
 		int id,
 		CancellationToken cancellationToken = default);

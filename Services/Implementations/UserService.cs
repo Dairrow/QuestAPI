@@ -105,6 +105,29 @@ public class UserService : IUserService
 		return existing;
 	}
 
+	public async Task<User> AdminUpdateAsync(
+		int id,
+		User entity,
+		CancellationToken cancellationToken = default)
+	{
+		var existing = await GetByIdAsync(
+			id,
+			cancellationToken);
+
+		existing.Username = entity.Username;
+		existing.Email = entity.Email;
+		existing.Role = entity.Role;
+
+		existing.UpdatedAt = DateTime.UtcNow;
+
+		_userRepository.Update(existing);
+
+		await _userRepository.SaveChangesAsync(
+			cancellationToken);
+
+		return existing;
+	}
+
 
 	public async Task DeleteAsync(
 		int id,

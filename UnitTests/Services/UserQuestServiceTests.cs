@@ -99,7 +99,7 @@ namespace UnitTests.Services
 			_userQuestRepoMock.Setup(x => x.GetByIdAsync(1, It.IsAny<CancellationToken>())).ReturnsAsync(userQuest);
 			_questRepoMock.Setup(x => x.GetWithTasksAsync(1, It.IsAny<CancellationToken>())).ReturnsAsync(quest);
 
-			await Assert.ThrowsAsync<ValidationException>(() => _service.UpdateProgressAsync(1, 2));
+			await Assert.ThrowsAsync<ForbiddenException>(() => _service.UpdateProgressAsync(1, 2));
 		}
 
 		[Fact]
@@ -110,7 +110,7 @@ namespace UnitTests.Services
 			_userQuestRepoMock.Setup(x => x.GetByIdAsync(1, It.IsAny<CancellationToken>())).ReturnsAsync(userQuest);
 			_questRepoMock.Setup(x => x.GetWithTasksAsync(1, It.IsAny<CancellationToken>())).ReturnsAsync(quest);
 
-			await Assert.ThrowsAsync<ValidationException>(() => _service.UpdateProgressAsync(1, 0));
+			await Assert.ThrowsAsync<ForbiddenException>(() => _service.UpdateProgressAsync(1, 0));
 		}
 	}
 }

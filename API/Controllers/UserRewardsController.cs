@@ -70,7 +70,6 @@ public class UserRewardsController : BaseApiController
 	}
 
 	[HttpDelete("{id:int}")]
-	[Authorize(Roles = "Admin")]
 	public async Task<IActionResult> Delete(int userId, int id, CancellationToken cancellationToken)
 	{
 		EnsureUserAccess(userId);

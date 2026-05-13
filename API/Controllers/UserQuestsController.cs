@@ -42,7 +42,6 @@ public class UserQuestsController : BaseApiController
 	}
 
 	[HttpPost]
-	[Authorize(Roles = "Admin")]
 	public async Task<IActionResult> Create(int userId, CreateUserQuestRequest request, CancellationToken cancellationToken)
 	{
 		EnsureUserAccess(userId);
@@ -53,7 +52,6 @@ public class UserQuestsController : BaseApiController
 	}
 
 	[HttpPut("{id:int}")]
-	[Authorize(Roles = "Admin")]
 	public async Task<IActionResult> UpdateProgress(int userId, int id, UpdateUserQuestRequest request, CancellationToken cancellationToken)
 	{
 		EnsureUserAccess(userId);
@@ -66,7 +64,6 @@ public class UserQuestsController : BaseApiController
 	}
 
 	[HttpDelete("{id:int}")]
-	[Authorize(Roles = "Admin")]
 	public async Task<IActionResult> Delete(int userId, int id, CancellationToken cancellationToken)
 	{
 		EnsureUserAccess(userId);
