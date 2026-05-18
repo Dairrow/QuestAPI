@@ -2,7 +2,7 @@
 
 namespace Data.Entities;
 
-public class UserReward : AuditableEntity
+public class Inventory : AuditableEntity
 {
 	public int UserId { get; set; }
 

@@ -10,429 +10,429 @@ using Repository.Context;
 
 namespace Repository.Migrations
 {
-	[DbContext(typeof(AppDbContext))]
-	partial class AppDbContextModelSnapshot : ModelSnapshot
-	{
-		protected override void BuildModel(ModelBuilder modelBuilder)
-		{
+    [DbContext(typeof(AppDbContext))]
+    partial class AppDbContextModelSnapshot : ModelSnapshot
+    {
+        protected override void BuildModel(ModelBuilder modelBuilder)
+        {
 #pragma warning disable 612, 618
-			modelBuilder
-				.HasAnnotation("ProductVersion", "9.0.10")
-				.HasAnnotation("Relational:MaxIdentifierLength", 63);
-
-			NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
-
-			modelBuilder.Entity("Data.Entities.Quest", b =>
-				{
-					b.Property<int>("Id")
-						.ValueGeneratedOnAdd()
-						.HasColumnType("integer")
-						.HasColumnName("id");
-
-					NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-					b.Property<DateTime>("CreatedAt")
-						.HasColumnType("timestamp with time zone")
-						.HasColumnName("created_at");
-
-					b.Property<string>("Description")
-						.IsRequired()
-						.HasColumnType("text")
-						.HasColumnName("description");
-
-					b.Property<int>("Difficulty")
-						.HasColumnType("integer")
-						.HasColumnName("difficulty");
-
-					b.Property<int?>("RewardId")
-						.HasColumnType("integer")
-						.HasColumnName("reward_id");
-
-					b.Property<string>("Title")
-						.IsRequired()
-						.HasMaxLength(100)
-						.HasColumnType("character varying(100)")
-						.HasColumnName("title");
-
-					b.Property<DateTime?>("UpdatedAt")
-						.HasColumnType("timestamp with time zone")
-						.HasColumnName("updated_at");
-
-					b.HasKey("Id")
-						.HasName("pk_quests");
-
-					b.HasIndex("RewardId")
-						.HasDatabaseName("ix_quests_reward_id");
-
-					b.ToTable("quests", (string)null);
-				});
-
-			modelBuilder.Entity("Data.Entities.QuestTask", b =>
-				{
-					b.Property<int>("Id")
-						.ValueGeneratedOnAdd()
-						.HasColumnType("integer")
-						.HasColumnName("id");
-
-					NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-					b.Property<DateTime>("CreatedAt")
-						.HasColumnType("timestamp with time zone")
-						.HasColumnName("created_at");
-
-					b.Property<string>("Description")
-						.IsRequired()
-						.HasColumnType("text")
-						.HasColumnName("description");
-
-					b.Property<int>("Order")
-						.HasColumnType("integer")
-						.HasColumnName("order");
-
-					b.Property<int>("QuestId")
-						.HasColumnType("integer")
-						.HasColumnName("quest_id");
-
-					b.Property<string>("Title")
-						.IsRequired()
-						.HasColumnType("text")
-						.HasColumnName("title");
-
-					b.Property<DateTime?>("UpdatedAt")
-						.HasColumnType("timestamp with time zone")
-						.HasColumnName("updated_at");
-
-					b.HasKey("Id")
-						.HasName("pk_quest_tasks");
-
-					b.HasIndex("QuestId", "Order")
-						.IsUnique()
-						.HasDatabaseName("ix_quest_tasks_quest_id_order");
-
-					b.ToTable("quest_tasks", (string)null);
-				});
-
-			modelBuilder.Entity("Data.Entities.RefreshToken", b =>
-				{
-					b.Property<int>("Id")
-						.ValueGeneratedOnAdd()
-						.HasColumnType("integer")
-						.HasColumnName("id");
-
-					NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-					b.Property<DateTime>("CreatedAt")
-						.HasColumnType("timestamp with time zone")
-						.HasColumnName("created_at");
-
-					b.Property<DateTime>("ExpiresAt")
-						.HasColumnType("timestamp with time zone")
-						.HasColumnName("expires_at");
-
-					b.Property<bool>("IsRevoked")
-						.HasColumnType("boolean")
-						.HasColumnName("is_revoked");
-
-					b.Property<string>("Token")
-						.IsRequired()
-						.HasColumnType("text")
-						.HasColumnName("token");
-
-					b.Property<DateTime?>("UpdatedAt")
-						.HasColumnType("timestamp with time zone")
-						.HasColumnName("updated_at");
-
-					b.Property<int>("UserId")
-						.HasColumnType("integer")
-						.HasColumnName("user_id");
-
-					b.HasKey("Id")
-						.HasName("pk_refresh_tokens");
-
-					b.HasIndex("UserId")
-						.HasDatabaseName("ix_refresh_tokens_user_id");
-
-					b.ToTable("refresh_tokens", (string)null);
-				});
-
-			modelBuilder.Entity("Data.Entities.Reward", b =>
-				{
-					b.Property<int>("Id")
-						.ValueGeneratedOnAdd()
-						.HasColumnType("integer")
-						.HasColumnName("id");
-
-					NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-					b.Property<DateTime>("CreatedAt")
-						.HasColumnType("timestamp with time zone")
-						.HasColumnName("created_at");
-
-					b.Property<string>("ImagePath")
-						.HasMaxLength(500)
-						.HasColumnType("character varying(500)")
-						.HasColumnName("image_path");
-
-					b.Property<string>("Name")
-						.IsRequired()
-						.HasMaxLength(100)
-						.HasColumnType("character varying(100)")
-						.HasColumnName("name");
-
-					b.Property<int>("Type")
-						.HasColumnType("integer")
-						.HasColumnName("type");
-
-					b.Property<DateTime?>("UpdatedAt")
-						.HasColumnType("timestamp with time zone")
-						.HasColumnName("updated_at");
-
-					b.Property<int>("Value")
-						.HasColumnType("integer")
-						.HasColumnName("value");
-
-					b.HasKey("Id")
-						.HasName("pk_rewards");
-
-					b.ToTable("rewards", (string)null);
-				});
-
-			modelBuilder.Entity("Data.Entities.User", b =>
-				{
-					b.Property<int>("Id")
-						.ValueGeneratedOnAdd()
-						.HasColumnType("integer")
-						.HasColumnName("id");
-
-					NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-					b.Property<DateTime>("CreatedAt")
-						.HasColumnType("timestamp with time zone")
-						.HasColumnName("created_at");
-
-					b.Property<string>("Email")
-						.IsRequired()
-						.HasMaxLength(100)
-						.HasColumnType("character varying(100)")
-						.HasColumnName("email");
-
-					b.Property<string>("PasswordHash")
-						.IsRequired()
-						.HasColumnType("text")
-						.HasColumnName("password_hash");
+            modelBuilder
+                .HasAnnotation("ProductVersion", "9.0.10")
+                .HasAnnotation("Relational:MaxIdentifierLength", 63);
+
+            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("Data.Entities.Inventory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
 
-					b.Property<int>("Role")
-						.HasColumnType("integer")
-						.HasColumnName("role");
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<bool>("IsClaimed")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_claimed");
+
+                    b.Property<DateTime>("ReceivedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("received_at");
+
+                    b.Property<int>("RewardId")
+                        .HasColumnType("integer")
+                        .HasColumnName("reward_id");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("Id")
+                        .HasName("pk_user_rewards");
+
+                    b.HasIndex("RewardId")
+                        .HasDatabaseName("ix_user_rewards_reward_id");
 
-					b.Property<DateTime?>("UpdatedAt")
-						.HasColumnType("timestamp with time zone")
-						.HasColumnName("updated_at");
+                    b.HasIndex("UserId", "RewardId")
+                        .IsUnique()
+                        .HasDatabaseName("ix_user_rewards_user_id_reward_id");
+
+                    b.ToTable("user_rewards", (string)null);
+                });
 
-					b.Property<string>("Username")
-						.IsRequired()
-						.HasMaxLength(50)
-						.HasColumnType("character varying(50)")
-						.HasColumnName("username");
+            modelBuilder.Entity("Data.Entities.Quest", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-					b.HasKey("Id")
-						.HasName("pk_users");
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
 
-					b.HasIndex("Email")
-						.IsUnique()
-						.HasDatabaseName("ix_users_email");
-
-					b.ToTable("users", (string)null);
-				});
-
-			modelBuilder.Entity("Data.Entities.UserQuest", b =>
-				{
-					b.Property<int>("Id")
-						.ValueGeneratedOnAdd()
-						.HasColumnType("integer")
-						.HasColumnName("id");
-
-					NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-					b.Property<DateTime>("CreatedAt")
-						.HasColumnType("timestamp with time zone")
-						.HasColumnName("created_at");
-
-					b.Property<bool>("IsCompleted")
-						.HasColumnType("boolean")
-						.HasColumnName("is_completed");
-
-					b.Property<int?>("LastCompletedTaskOrder")
-						.HasColumnType("integer")
-						.HasColumnName("last_completed_task_order");
-
-					b.Property<int>("QuestId")
-						.HasColumnType("integer")
-						.HasColumnName("quest_id");
-
-					b.Property<DateTime?>("UpdatedAt")
-						.HasColumnType("timestamp with time zone")
-						.HasColumnName("updated_at");
-
-					b.Property<int>("UserId")
-						.HasColumnType("integer")
-						.HasColumnName("user_id");
-
-					b.HasKey("Id")
-						.HasName("pk_user_quests");
-
-					b.HasIndex("QuestId")
-						.HasDatabaseName("ix_user_quests_quest_id");
-
-					b.HasIndex("UserId", "QuestId")
-						.IsUnique()
-						.HasDatabaseName("ix_user_quests_user_id_quest_id");
-
-					b.ToTable("user_quests", (string)null);
-				});
-
-			modelBuilder.Entity("Data.Entities.UserReward", b =>
-				{
-					b.Property<int>("Id")
-						.ValueGeneratedOnAdd()
-						.HasColumnType("integer")
-						.HasColumnName("id");
-
-					NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-					b.Property<DateTime>("CreatedAt")
-						.HasColumnType("timestamp with time zone")
-						.HasColumnName("created_at");
-
-					b.Property<bool>("IsClaimed")
-						.HasColumnType("boolean")
-						.HasColumnName("is_claimed");
-
-					b.Property<DateTime>("ReceivedAt")
-						.HasColumnType("timestamp with time zone")
-						.HasColumnName("received_at");
-
-					b.Property<int>("RewardId")
-						.HasColumnType("integer")
-						.HasColumnName("reward_id");
-
-					b.Property<DateTime?>("UpdatedAt")
-						.HasColumnType("timestamp with time zone")
-						.HasColumnName("updated_at");
-
-					b.Property<int>("UserId")
-						.HasColumnType("integer")
-						.HasColumnName("user_id");
-
-					b.HasKey("Id")
-						.HasName("pk_user_rewards");
-
-					b.HasIndex("RewardId")
-						.HasDatabaseName("ix_user_rewards_reward_id");
-
-					b.HasIndex("UserId", "RewardId")
-						.IsUnique()
-						.HasDatabaseName("ix_user_rewards_user_id_reward_id");
-
-					b.ToTable("user_rewards", (string)null);
-				});
-
-			modelBuilder.Entity("Data.Entities.Quest", b =>
-				{
-					b.HasOne("Data.Entities.Reward", "Reward")
-						.WithMany()
-						.HasForeignKey("RewardId")
-						.OnDelete(DeleteBehavior.SetNull)
-						.HasConstraintName("fk_quests_rewards_reward_id");
-
-					b.Navigation("Reward");
-				});
-
-			modelBuilder.Entity("Data.Entities.QuestTask", b =>
-				{
-					b.HasOne("Data.Entities.Quest", "Quest")
-						.WithMany("Tasks")
-						.HasForeignKey("QuestId")
-						.OnDelete(DeleteBehavior.Cascade)
-						.IsRequired()
-						.HasConstraintName("fk_quest_tasks_quests_quest_id");
-
-					b.Navigation("Quest");
-				});
-
-			modelBuilder.Entity("Data.Entities.RefreshToken", b =>
-				{
-					b.HasOne("Data.Entities.User", "User")
-						.WithMany()
-						.HasForeignKey("UserId")
-						.OnDelete(DeleteBehavior.Cascade)
-						.IsRequired()
-						.HasConstraintName("fk_refresh_tokens_users_user_id");
-
-					b.Navigation("User");
-				});
-
-			modelBuilder.Entity("Data.Entities.UserQuest", b =>
-				{
-					b.HasOne("Data.Entities.Quest", "Quest")
-						.WithMany("UserQuests")
-						.HasForeignKey("QuestId")
-						.OnDelete(DeleteBehavior.Cascade)
-						.IsRequired()
-						.HasConstraintName("fk_user_quests_quests_quest_id");
-
-					b.HasOne("Data.Entities.User", "User")
-						.WithMany("UserQuests")
-						.HasForeignKey("UserId")
-						.OnDelete(DeleteBehavior.Cascade)
-						.IsRequired()
-						.HasConstraintName("fk_user_quests_users_user_id");
-
-					b.Navigation("Quest");
-
-					b.Navigation("User");
-				});
-
-			modelBuilder.Entity("Data.Entities.UserReward", b =>
-				{
-					b.HasOne("Data.Entities.Reward", "Reward")
-						.WithMany("UserRewards")
-						.HasForeignKey("RewardId")
-						.OnDelete(DeleteBehavior.Cascade)
-						.IsRequired()
-						.HasConstraintName("fk_user_rewards_rewards_reward_id");
-
-					b.HasOne("Data.Entities.User", "User")
-						.WithMany("UserRewards")
-						.HasForeignKey("UserId")
-						.OnDelete(DeleteBehavior.Cascade)
-						.IsRequired()
-						.HasConstraintName("fk_user_rewards_users_user_id");
-
-					b.Navigation("Reward");
-
-					b.Navigation("User");
-				});
-
-			modelBuilder.Entity("Data.Entities.Quest", b =>
-				{
-					b.Navigation("Tasks");
-
-					b.Navigation("UserQuests");
-				});
-
-			modelBuilder.Entity("Data.Entities.Reward", b =>
-				{
-					b.Navigation("UserRewards");
-				});
-
-			modelBuilder.Entity("Data.Entities.User", b =>
-				{
-					b.Navigation("UserQuests");
-
-					b.Navigation("UserRewards");
-				});
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("description");
+
+                    b.Property<int>("Difficulty")
+                        .HasColumnType("integer")
+                        .HasColumnName("difficulty");
+
+                    b.Property<int?>("RewardId")
+                        .HasColumnType("integer")
+                        .HasColumnName("reward_id");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("title");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
+
+                    b.HasKey("Id")
+                        .HasName("pk_quests");
+
+                    b.HasIndex("RewardId")
+                        .HasDatabaseName("ix_quests_reward_id");
+
+                    b.ToTable("quests", (string)null);
+                });
+
+            modelBuilder.Entity("Data.Entities.QuestTask", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("description");
+
+                    b.Property<int>("Order")
+                        .HasColumnType("integer")
+                        .HasColumnName("order");
+
+                    b.Property<int>("QuestId")
+                        .HasColumnType("integer")
+                        .HasColumnName("quest_id");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("title");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
+
+                    b.HasKey("Id")
+                        .HasName("pk_quest_tasks");
+
+                    b.HasIndex("QuestId", "Order")
+                        .IsUnique()
+                        .HasDatabaseName("ix_quest_tasks_quest_id_order");
+
+                    b.ToTable("quest_tasks", (string)null);
+                });
+
+            modelBuilder.Entity("Data.Entities.RefreshToken", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<DateTime>("ExpiresAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("expires_at");
+
+                    b.Property<bool>("IsRevoked")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_revoked");
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("token");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("Id")
+                        .HasName("pk_refresh_tokens");
+
+                    b.HasIndex("UserId")
+                        .HasDatabaseName("ix_refresh_tokens_user_id");
+
+                    b.ToTable("refresh_tokens", (string)null);
+                });
+
+            modelBuilder.Entity("Data.Entities.Reward", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<string>("ImagePath")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("image_path");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("name");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("integer")
+                        .HasColumnName("type");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
+
+                    b.Property<int>("Value")
+                        .HasColumnType("integer")
+                        .HasColumnName("value");
+
+                    b.HasKey("Id")
+                        .HasName("pk_rewards");
+
+                    b.ToTable("rewards", (string)null);
+                });
+
+            modelBuilder.Entity("Data.Entities.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("email");
+
+                    b.Property<string>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("password_hash");
+
+                    b.Property<int>("Role")
+                        .HasColumnType("integer")
+                        .HasColumnName("role");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("username");
+
+                    b.HasKey("Id")
+                        .HasName("pk_users");
+
+                    b.HasIndex("Email")
+                        .IsUnique()
+                        .HasDatabaseName("ix_users_email");
+
+                    b.ToTable("users", (string)null);
+                });
+
+            modelBuilder.Entity("Data.Entities.UserQuest", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<bool>("IsCompleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_completed");
+
+                    b.Property<int?>("LastCompletedTaskOrder")
+                        .HasColumnType("integer")
+                        .HasColumnName("last_completed_task_order");
+
+                    b.Property<int>("QuestId")
+                        .HasColumnType("integer")
+                        .HasColumnName("quest_id");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("Id")
+                        .HasName("pk_user_quests");
+
+                    b.HasIndex("QuestId")
+                        .HasDatabaseName("ix_user_quests_quest_id");
+
+                    b.HasIndex("UserId", "QuestId")
+                        .IsUnique()
+                        .HasDatabaseName("ix_user_quests_user_id_quest_id");
+
+                    b.ToTable("user_quests", (string)null);
+                });
+
+            modelBuilder.Entity("Data.Entities.Inventory", b =>
+                {
+                    b.HasOne("Data.Entities.Reward", "Reward")
+                        .WithMany("UserRewards")
+                        .HasForeignKey("RewardId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_user_rewards_rewards_reward_id");
+
+                    b.HasOne("Data.Entities.User", "User")
+                        .WithMany("UserRewards")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_user_rewards_users_user_id");
+
+                    b.Navigation("Reward");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Data.Entities.Quest", b =>
+                {
+                    b.HasOne("Data.Entities.Reward", "Reward")
+                        .WithMany()
+                        .HasForeignKey("RewardId")
+                        .OnDelete(DeleteBehavior.SetNull)
+                        .HasConstraintName("fk_quests_rewards_reward_id");
+
+                    b.Navigation("Reward");
+                });
+
+            modelBuilder.Entity("Data.Entities.QuestTask", b =>
+                {
+                    b.HasOne("Data.Entities.Quest", "Quest")
+                        .WithMany("Tasks")
+                        .HasForeignKey("QuestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_quest_tasks_quests_quest_id");
+
+                    b.Navigation("Quest");
+                });
+
+            modelBuilder.Entity("Data.Entities.RefreshToken", b =>
+                {
+                    b.HasOne("Data.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_refresh_tokens_users_user_id");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Data.Entities.UserQuest", b =>
+                {
+                    b.HasOne("Data.Entities.Quest", "Quest")
+                        .WithMany("UserQuests")
+                        .HasForeignKey("QuestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_user_quests_quests_quest_id");
+
+                    b.HasOne("Data.Entities.User", "User")
+                        .WithMany("UserQuests")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_user_quests_users_user_id");
+
+                    b.Navigation("Quest");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Data.Entities.Quest", b =>
+                {
+                    b.Navigation("Tasks");
+
+                    b.Navigation("UserQuests");
+                });
+
+            modelBuilder.Entity("Data.Entities.Reward", b =>
+                {
+                    b.Navigation("UserRewards");
+                });
+
+            modelBuilder.Entity("Data.Entities.User", b =>
+                {
+                    b.Navigation("UserQuests");
+
+                    b.Navigation("UserRewards");
+                });
 #pragma warning restore 612, 618
-		}
-	}
+        }
+    }
 }

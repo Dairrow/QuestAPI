@@ -23,7 +23,7 @@ public class AppDbContext : DbContext
 
 	public DbSet<UserQuest> UserQuests => Set<UserQuest>();
 
-	public DbSet<UserReward> UserRewards => Set<UserReward>();
+	public DbSet<Inventory> UserRewards => Set<Inventory>();
 
 
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -50,6 +50,6 @@ public class AppDbContext : DbContext
 			new UserQuestConfiguration());
 
 		modelBuilder.ApplyConfiguration(
-			new UserRewardConfiguration());
+			new InventoryConfiguration());
 	}
 }

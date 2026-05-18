@@ -6,12 +6,12 @@ using Data.Entities;
 
 namespace API.Profiles;
 
-public class UserRewardProfile : Profile
+public class InventoryProfile : Profile
 {
-	public UserRewardProfile()
+	public InventoryProfile()
 	{
-		CreateMap<CreateUserRewardRequest, UserReward>();
+		CreateMap<CreateRewardInventoryRequest, Inventory>();
 
-		CreateMap<UserReward, UserRewardResponse>();
+		CreateMap<Inventory, InventoryResponse>();
 	}
 }

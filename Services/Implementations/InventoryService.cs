@@ -7,18 +7,18 @@ using Services.Interfaces;
 
 namespace Services.Implementations;
 
-public class UserRewardService : IUserRewardService
+public class InventoryService : IInventoryService
 {
-	private readonly IUserRewardRepository _userRewardRepository;
+	private readonly IInventoryRepository _userRewardRepository;
 	private readonly IUserQuestRepository _userQuestRepository;
 	private readonly IQuestRepository _questRepository;
-	private readonly ILogger<UserRewardService> _logger;
+	private readonly ILogger<InventoryService> _logger;
 
-	public UserRewardService(
-		IUserRewardRepository userRewardRepository,
+	public InventoryService(
+		IInventoryRepository userRewardRepository,
 		IUserQuestRepository userQuestRepository,
 		IQuestRepository questRepository,
-		ILogger<UserRewardService> logger)
+		ILogger<InventoryService> logger)
 	{
 		_userRewardRepository = userRewardRepository;
 		_userQuestRepository = userQuestRepository;
@@ -26,7 +26,7 @@ public class UserRewardService : IUserRewardService
 		_logger = logger;
 	}
 
-	public async Task<IReadOnlyCollection<UserReward>> GetByUserIdAsync(
+	public async Task<IReadOnlyCollection<Inventory>> GetByUserIdAsync(
 		int userId,
 		CancellationToken cancellationToken = default)
 	{
@@ -38,7 +38,7 @@ public class UserRewardService : IUserRewardService
 			.GetByUserIdAsync(userId, cancellationToken);
 	}
 
-	public async Task<UserReward> GetByIdAsync(
+	public async Task<Inventory> GetByIdAsync(
 		int id,
 		CancellationToken cancellationToken = default)
 	{
@@ -58,8 +58,8 @@ public class UserRewardService : IUserRewardService
 		return userReward;
 	}
 
-	public async Task<UserReward> CreateAsync(
-		UserReward entity,
+	public async Task<Inventory> CreateAsync(
+		Inventory entity,
 		CancellationToken cancellationToken = default)
 	{
 		_logger.LogInformation(
@@ -86,7 +86,7 @@ public class UserRewardService : IUserRewardService
 		return entity;
 	}
 
-	public async Task<UserReward> ClaimAsync(int userRewardId, CancellationToken cancellationToken = default)
+	public async Task<Inventory> ClaimAsync(int userRewardId, CancellationToken cancellationToken = default)
 	{
 		var userReward = await _userRewardRepository.GetByIdAsync(userRewardId, cancellationToken)
 			?? throw new NotFoundException($"UserReward {userRewardId} not found");

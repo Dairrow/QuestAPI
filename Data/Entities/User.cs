@@ -16,6 +16,6 @@ public class User : AuditableEntity
 	public ICollection<UserQuest> UserQuests { get; set; }
 		= new List<UserQuest>();
 
-	public ICollection<UserReward> UserRewards { get; set; }
-		= new List<UserReward>();
+	public ICollection<Inventory> UserRewards { get; set; }
+		= new List<Inventory>();
 }

@@ -23,7 +23,7 @@ public static class ServiceCollectionExtensions
 
 		services.AddScoped<IUserQuestService, UserQuestService>();
 
-		services.AddScoped<IUserRewardService, UserRewardService>();
+		services.AddScoped<IInventoryService, InventoryService>();
 
 		return services;
 	}

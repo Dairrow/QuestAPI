@@ -18,7 +18,7 @@ public static class RepositoryExtensions
 
 		services.AddScoped<IUserQuestRepository, UserQuestRepository>();
 
-		services.AddScoped<IUserRewardRepository, UserRewardRepository>();
+		services.AddScoped<IInventoryRepository, InventoryRepository>();
 
 		services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
 

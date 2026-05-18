@@ -1,6 +1,6 @@
 ﻿namespace API.DTOs.Responses.UserRewards;
 
-public class UserRewardResponse
+public class InventoryResponse
 {
 	public int Id { get; set; }
 

@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Repository.Configurations;
 
-public class UserRewardConfiguration
-	: IEntityTypeConfiguration<UserReward>
+public class InventoryConfiguration
+	: IEntityTypeConfiguration<Inventory>
 {
 	public void Configure(
-		EntityTypeBuilder<UserReward> builder)
+		EntityTypeBuilder<Inventory> builder)
 	{
 		builder.ToTable("user_rewards");
 

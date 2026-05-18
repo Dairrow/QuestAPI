@@ -13,6 +13,6 @@ public class Reward : AuditableEntity
 
 	public string? ImagePath { get; set; }
 
-	public ICollection<UserReward> UserRewards { get; set; }
-		= new List<UserReward>();
+	public ICollection<Inventory> UserRewards { get; set; }
+		= new List<Inventory>();
 }

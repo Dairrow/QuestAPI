@@ -11,13 +11,13 @@ public class UserQuestService : IUserQuestService
 {
 	private readonly IUserQuestRepository _userQuestRepository;
 	private readonly IQuestRepository _questRepository;
-	private readonly IUserRewardRepository _userRewardRepository;
+	private readonly IInventoryRepository _userRewardRepository;
 	private readonly ILogger<UserQuestService> _logger;
 
 	public UserQuestService(
 		IUserQuestRepository userQuestRepository,
 		IQuestRepository questRepository,
-		IUserRewardRepository userRewardRepository,
+		IInventoryRepository userRewardRepository,
 		ILogger<UserQuestService> logger)
 	{
 		_userQuestRepository = userQuestRepository;
@@ -169,7 +169,7 @@ public class UserQuestService : IUserQuestService
 				var userReward = existingRewards.FirstOrDefault();
 				if (userReward == null)
 				{
-					userReward = new UserReward
+					userReward = new Inventory
 					{
 						UserId = userQuest.UserId,
 						RewardId = quest.RewardId.Value,

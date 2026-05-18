@@ -16,7 +16,7 @@ namespace UnitTests.Services
 	{
 		private readonly Mock<IUserQuestRepository> _userQuestRepoMock = new();
 		private readonly Mock<IQuestRepository> _questRepoMock = new();
-		private readonly Mock<IUserRewardRepository> _userRewardRepoMock = new();
+		private readonly Mock<IInventoryRepository> _userRewardRepoMock = new();
 		private readonly UserQuestService _service;
 
 		public UserQuestServiceTests()
@@ -63,13 +63,13 @@ namespace UnitTests.Services
 			var userQuest = new UserQuest { Id = 1, UserId = 1, QuestId = 1 };
 			_userQuestRepoMock.Setup(x => x.GetByIdAsync(1, It.IsAny<CancellationToken>())).ReturnsAsync(userQuest);
 			_questRepoMock.Setup(x => x.GetWithTasksAsync(1, It.IsAny<CancellationToken>())).ReturnsAsync(quest);
-			_userRewardRepoMock.Setup(x => x.FindAsync(It.IsAny<System.Linq.Expressions.Expression<System.Func<UserReward, bool>>>(), It.IsAny<CancellationToken>()))
-				.ReturnsAsync(new List<UserReward>());
+			_userRewardRepoMock.Setup(x => x.FindAsync(It.IsAny<System.Linq.Expressions.Expression<System.Func<Inventory, bool>>>(), It.IsAny<CancellationToken>()))
+				.ReturnsAsync(new List<Inventory>());
 
 			var result = await _service.UpdateProgressAsync(1, 1);
 
 			Assert.True(result.IsCompleted);
-			_userRewardRepoMock.Verify(x => x.AddAsync(It.Is<UserReward>(r => r.UserId == 1 && r.RewardId == 5), It.IsAny<CancellationToken>()), Times.Once);
+			_userRewardRepoMock.Verify(x => x.AddAsync(It.Is<Inventory>(r => r.UserId == 1 && r.RewardId == 5), It.IsAny<CancellationToken>()), Times.Once);
 		}
 
 		[Fact]
@@ -77,11 +77,11 @@ namespace UnitTests.Services
 		{
 			var quest = new Quest { Id = 1, RewardId = 3, Tasks = new List<QuestTask> { new QuestTask { Order = 1 } } };
 			var userQuest = new UserQuest { Id = 1, UserId = 1, QuestId = 1, IsCompleted = true, LastCompletedTaskOrder = 1 };
-			var existingReward = new UserReward { Id = 10, UserId = 1, RewardId = 3, IsClaimed = true };
+			var existingReward = new Inventory { Id = 10, UserId = 1, RewardId = 3, IsClaimed = true };
 			_userQuestRepoMock.Setup(x => x.GetByIdAsync(1, It.IsAny<CancellationToken>())).ReturnsAsync(userQuest);
 			_questRepoMock.Setup(x => x.GetWithTasksAsync(1, It.IsAny<CancellationToken>())).ReturnsAsync(quest);
-			_userRewardRepoMock.Setup(x => x.FindAsync(It.IsAny<System.Linq.Expressions.Expression<System.Func<UserReward, bool>>>(), It.IsAny<CancellationToken>()))
-				.ReturnsAsync(new List<UserReward> { existingReward });
+			_userRewardRepoMock.Setup(x => x.FindAsync(It.IsAny<System.Linq.Expressions.Expression<System.Func<Inventory, bool>>>(), It.IsAny<CancellationToken>()))
+				.ReturnsAsync(new List<Inventory> { existingReward });
 
 			await _service.UpdateProgressAsync(1, 0);
 

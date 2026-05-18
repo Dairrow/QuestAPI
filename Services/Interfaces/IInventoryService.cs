@@ -2,24 +2,24 @@
 
 namespace Services.Interfaces;
 
-public interface IUserRewardService
+public interface IInventoryService
 {
-	Task<IReadOnlyCollection<UserReward>>
+	Task<IReadOnlyCollection<Inventory>>
 		GetByUserIdAsync(
 			int userId,
 			CancellationToken cancellationToken = default);
 
-	Task<UserReward>
+	Task<Inventory>
 		GetByIdAsync(
 			int id,
 			CancellationToken cancellationToken = default);
 
-	Task<UserReward>
+	Task<Inventory>
 		CreateAsync(
-			UserReward entity,
+			Inventory entity,
 			CancellationToken cancellationToken = default);
 
-	Task<UserReward> 
+	Task<Inventory> 
 		ClaimAsync(int userRewardId, 
 		CancellationToken cancellationToken = default);
 

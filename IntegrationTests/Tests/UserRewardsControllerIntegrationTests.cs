@@ -34,12 +34,12 @@ public class UserRewardsControllerIntegrationTests : IClassFixture<CustomWebAppl
 		var playerId = auth.UserId;
 
 		var initial = await player.GetAsync($"/api/users/{playerId}/rewards");
-		var initialList = await initial.Content.ReadFromJsonAsync<List<UserRewardResponse>>();
+		var initialList = await initial.Content.ReadFromJsonAsync<List<InventoryResponse>>();
 		Assert.Empty(initialList!);
 
 		await player.CompleteQuestAndGetFirstRewardIdAsync(playerId);
 
-		var after = await player.GetFromJsonAsync<List<UserRewardResponse>>($"/api/users/{playerId}/rewards");
+		var after = await player.GetFromJsonAsync<List<InventoryResponse>>($"/api/users/{playerId}/rewards");
 		Assert.Single(after!);
 		Assert.False(after[0].IsClaimed);
 	}
@@ -53,7 +53,7 @@ public class UserRewardsControllerIntegrationTests : IClassFixture<CustomWebAppl
 		await player.CompleteQuestAndGetFirstRewardIdAsync(playerId);
 
 		var admin = await GetAdminClientAsync();
-		var response = await admin.GetFromJsonAsync<List<UserRewardResponse>>($"/api/users/{playerId}/rewards");
+		var response = await admin.GetFromJsonAsync<List<InventoryResponse>>($"/api/users/{playerId}/rewards");
 		Assert.NotEmpty(response!);
 	}
 
@@ -77,7 +77,7 @@ public class UserRewardsControllerIntegrationTests : IClassFixture<CustomWebAppl
 
 		var response = await player.GetAsync($"/api/users/{playerId}/rewards/{rewardId}");
 		Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-		var reward = await response.Content.ReadFromJsonAsync<UserRewardResponse>();
+		var reward = await response.Content.ReadFromJsonAsync<InventoryResponse>();
 		Assert.Equal(rewardId, reward!.Id);
 	}
 
@@ -111,7 +111,7 @@ public class UserRewardsControllerIntegrationTests : IClassFixture<CustomWebAppl
 			RewardId = rewardId
 		});
 		Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-		var created = await response.Content.ReadFromJsonAsync<UserRewardResponse>();
+		var created = await response.Content.ReadFromJsonAsync<InventoryResponse>();
 		Assert.Equal(rewardId, created!.RewardId);
 	}
 
@@ -144,7 +144,7 @@ public class UserRewardsControllerIntegrationTests : IClassFixture<CustomWebAppl
 		var claimContent = new StringContent("{}", Encoding.UTF8, "application/json");
 		var response = await player.PutAsync($"/api/users/{playerId}/rewards/{rewardId}", claimContent);
 		Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-		var claimed = await response.Content.ReadFromJsonAsync<UserRewardResponse>();
+		var claimed = await response.Content.ReadFromJsonAsync<InventoryResponse>();
 		Assert.True(claimed!.IsClaimed);
 	}
 
@@ -190,7 +190,7 @@ public class UserRewardsControllerIntegrationTests : IClassFixture<CustomWebAppl
 		var response = await admin.DeleteAsync($"/api/users/{playerId}/rewards/{rewardId}");
 		Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
 
-		var after = await admin.GetFromJsonAsync<List<UserRewardResponse>>($"/api/users/{playerId}/rewards");
+		var after = await admin.GetFromJsonAsync<List<InventoryResponse>>($"/api/users/{playerId}/rewards");
 		Assert.Empty(after!);
 	}
 

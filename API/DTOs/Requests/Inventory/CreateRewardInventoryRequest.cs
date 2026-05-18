@@ -1,6 +1,6 @@
 ﻿namespace API.DTOs.Requests.UserRewards;
 
-public class CreateUserRewardRequest
+public class CreateRewardInventoryRequest
 {
 	public int RewardId { get; set; }
 }

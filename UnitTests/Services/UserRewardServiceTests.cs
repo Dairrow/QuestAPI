@@ -13,24 +13,24 @@ namespace UnitTests.Services
 {
 	public class UserRewardServiceTests
 	{
-		private readonly Mock<IUserRewardRepository> _userRewardRepoMock = new();
+		private readonly Mock<IInventoryRepository> _userRewardRepoMock = new();
 		private readonly Mock<IUserQuestRepository> _userQuestRepoMock = new();
 		private readonly Mock<IQuestRepository> _questRepoMock = new();
-		private readonly UserRewardService _service;
+		private readonly InventoryService _service;
 
 		public UserRewardServiceTests()
 		{
-			_service = new UserRewardService(
+			_service = new InventoryService(
 				_userRewardRepoMock.Object,
 				_userQuestRepoMock.Object,
 				_questRepoMock.Object,
-				new Mock<ILogger<UserRewardService>>().Object);
+				new Mock<ILogger<InventoryService>>().Object);
 		}
 
 		[Fact]
 		public async Task ClaimAsync_ValidClaim_SetsIsClaimedTrue()
 		{
-			var userReward = new UserReward { Id = 1, UserId = 1, RewardId = 10, IsClaimed = false };
+			var userReward = new Inventory { Id = 1, UserId = 1, RewardId = 10, IsClaimed = false };
 			_userRewardRepoMock.Setup(x => x.GetByIdAsync(1, It.IsAny<CancellationToken>())).ReturnsAsync(userReward);
 
 			var completedQuest = new UserQuest { UserId = 1, QuestId = 5, IsCompleted = true };
@@ -48,7 +48,7 @@ namespace UnitTests.Services
 		[Fact]
 		public async Task ClaimAsync_AlreadyClaimed_ThrowsValidationException()
 		{
-			var userReward = new UserReward { Id = 1, UserId = 1, RewardId = 10, IsClaimed = true };
+			var userReward = new Inventory { Id = 1, UserId = 1, RewardId = 10, IsClaimed = true };
 			_userRewardRepoMock.Setup(x => x.GetByIdAsync(1, It.IsAny<CancellationToken>())).ReturnsAsync(userReward);
 
 			await Assert.ThrowsAsync<ValidationException>(() => _service.ClaimAsync(1));
@@ -57,7 +57,7 @@ namespace UnitTests.Services
 		[Fact]
 		public async Task ClaimAsync_NoCompletedQuest_ThrowsValidationException()
 		{
-			var userReward = new UserReward { Id = 1, UserId = 1, RewardId = 10, IsClaimed = false };
+			var userReward = new Inventory { Id = 1, UserId = 1, RewardId = 10, IsClaimed = false };
 			_userRewardRepoMock.Setup(x => x.GetByIdAsync(1, It.IsAny<CancellationToken>())).ReturnsAsync(userReward);
 			_userQuestRepoMock.Setup(x => x.FindAsync(It.IsAny<System.Linq.Expressions.Expression<System.Func<UserQuest, bool>>>(), It.IsAny<CancellationToken>()))
 				.ReturnsAsync(new List<UserQuest>());

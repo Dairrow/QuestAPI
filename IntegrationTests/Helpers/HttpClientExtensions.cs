@@ -64,7 +64,7 @@ public static class HttpClientExtensions
 			putResponse.EnsureSuccessStatusCode();
 		}
 
-		var rewards = await playerClient.GetFromJsonAsync<List<UserRewardResponse>>($"/api/users/{playerId}/rewards");
+		var rewards = await playerClient.GetFromJsonAsync<List<InventoryResponse>>($"/api/users/{playerId}/rewards");
 		return rewards!.First().Id;
 	}
 
@@ -80,7 +80,7 @@ public static class HttpClientExtensions
 			putResponse.EnsureSuccessStatusCode();
 		}
 
-		var rewards = await playerClient.GetFromJsonAsync<List<UserRewardResponse>>($"/api/users/{playerId}/rewards");
+		var rewards = await playerClient.GetFromJsonAsync<List<InventoryResponse>>($"/api/users/{playerId}/rewards");
 		return rewards!.First().Id;
 	}
 }

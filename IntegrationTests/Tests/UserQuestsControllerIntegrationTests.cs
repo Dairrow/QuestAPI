@@ -150,7 +150,7 @@ public class UserQuestsControllerIntegrationTests : IClassFixture<CustomWebAppli
 
 		var rewardsResponse = await player.GetAsync($"/api/users/{playerIdFromLogin}/rewards");
 		Assert.Equal(HttpStatusCode.OK, rewardsResponse.StatusCode);
-		var rewards = await rewardsResponse.Content.ReadFromJsonAsync<List<UserRewardResponse>>();
+		var rewards = await rewardsResponse.Content.ReadFromJsonAsync<List<InventoryResponse>>();
 		Assert.Single(rewards!);
 		Assert.False(rewards[0].IsClaimed);
 	}
@@ -168,11 +168,11 @@ public class UserQuestsControllerIntegrationTests : IClassFixture<CustomWebAppli
 		for (int i = 1; i <= 3; i++)
 			await player.PutAsJsonAsync($"/api/users/{playerId}/quests/{userQuest.Id}", new { TaskOrder = i });
 
-		var rewards = await player.GetFromJsonAsync<List<UserRewardResponse>>($"/api/users/{playerId}/rewards");
+		var rewards = await player.GetFromJsonAsync<List<InventoryResponse>>($"/api/users/{playerId}/rewards");
 		var rewardId = rewards!.First().Id;
 
 		await player.PutAsync($"/api/users/{playerId}/rewards/{rewardId}", null);
-		var rewardAfterClaim = await player.GetFromJsonAsync<UserRewardResponse>($"/api/users/{playerId}/rewards/{rewardId}");
+		var rewardAfterClaim = await player.GetFromJsonAsync<InventoryResponse>($"/api/users/{playerId}/rewards/{rewardId}");
 		Assert.True(rewardAfterClaim!.IsClaimed);
 
 		var resetResponse = await player.PutAsJsonAsync($"/api/users/{playerId}/quests/{userQuest.Id}",
@@ -182,7 +182,7 @@ public class UserQuestsControllerIntegrationTests : IClassFixture<CustomWebAppli
 		Assert.False(updatedQuest!.IsCompleted);
 		Assert.Null(updatedQuest.LastCompletedTaskOrder);
 
-		var rewardAfterReset = await player.GetFromJsonAsync<UserRewardResponse>($"/api/users/{playerId}/rewards/{rewardId}");
+		var rewardAfterReset = await player.GetFromJsonAsync<InventoryResponse>($"/api/users/{playerId}/rewards/{rewardId}");
 		Assert.NotNull(rewardAfterReset);
 		Assert.False(rewardAfterReset!.IsClaimed);
 	}
